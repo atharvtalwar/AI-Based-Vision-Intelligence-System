@@ -3,13 +3,21 @@ import imutils
 import numpy as np
 import argparse
 
-# ── Load YOLOv4-tiny ──────────────────────────────────────────────────────────
-net = cv2.dnn.readNet(
-    "models/yolov4-tiny.weights",
-    "models/yolov4-tiny.cfg"
-)
-net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+def load_model():
+    net = cv2.dnn.readNet("models/yolov4.weights", "models/yolov4.cfg")
+    
+    if cv2.cuda.getCudaEnabledDeviceCount() > 0:
+        print("[INFO] CUDA GPU detected — running on GPU")
+        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
+    else:
+        print("[INFO] No CUDA GPU found — running on CPU")
+        net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+        net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)
+    
+    return net
+
+net = load_model()
 
 layer_names = net.getLayerNames()
 output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers().flatten()]
@@ -20,8 +28,6 @@ with open("models/coco.names", "r") as f:
 
 def detect(frame, conf_threshold=0.3, nms_threshold=0.3):
     h, w = frame.shape[:2]
-
-    # Run at larger resolution for better small-person detection
     blob = cv2.dnn.blobFromImage(frame, 1/255.0, (608, 608),
                                   swapRB=True, crop=False)
     net.setInput(blob)
@@ -108,7 +114,6 @@ def detectByPathVideo(path, output_path):
         print('Video Not Found. Please Enter a Valid Path.')
         return
 
-    # Get original FPS to play back at correct speed
     fps = video.get(cv2.CAP_PROP_FPS) or 25
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     writer = None
@@ -128,7 +133,6 @@ def detectByPathVideo(path, output_path):
                 writer = cv2.VideoWriter(output_path, fourcc, int(fps), (w, h))
             writer.write(frame)
 
-        # Sync display to video FPS — was waitKey(1) which plays too fast
         if cv2.waitKey(max(1, int(1000 / fps))) & 0xFF == ord('q'):
             break
 
