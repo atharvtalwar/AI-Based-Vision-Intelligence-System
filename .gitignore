@@ -17,4 +17,8 @@ outputs/
 Thumbs.db
 
 yolov4.weights
+*.weightslibs/ 
+
 *.weights
+*.cfg
+libs/
