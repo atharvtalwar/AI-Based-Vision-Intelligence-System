@@ -49,11 +49,11 @@ Or use curl:
 curl -L "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4.weights" -o models/yolov4.weights
 curl -L "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4.cfg" -o models/yolov4.cfg
 curl -L "https://raw.githubusercontent.com/AlexeyAB/darknet/master/data/coco.names" -o models/coco.names
-
+```
 ---
 
 ## Usage
-
+ 
 ### Webcam (live detection)
 ```bash
 python python_pp.py -c
