@@ -20,13 +20,20 @@ A real-time human detection system built with Python and OpenCV, using full YOLO
 
 ##  Output Samples
 
+## Output Samples
+
 <p align="center">
-  <img src="images/output1.png" width="45%">
-  <img src="images/output2.png" width="45%">
+  <img src="images/output1.png" width="48%">
+  <img src="images/output2.png" width="48%">
 </p>
 
 <p align="center">
-  <em>YOLOv4 + Soft-NMS detection results on crowd scenes</em>
+  <img src="images/79c8b10b-7218-489a-acbe-9e3c2f8a91c3.jpg" width="48%">
+  <img src="images/645c6ac6-31da-4d46-8026-e24a9e040560.jpg" width="48%">
+</p>
+
+<p align="center">
+  <em>YOLOv4 + Soft-NMS detection results on crowd scenes.</em>
 </p>
 
 ---
